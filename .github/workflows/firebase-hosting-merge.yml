@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install
+      - name: npmInstall
         run: npm install
         working-directory: ./book_dinner
       - name: Build
