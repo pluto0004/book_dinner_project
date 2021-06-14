@@ -1,18 +1,18 @@
 <template>
   <div>
-    Log in
-    <form @submit.prevent = "login">
+      <div v-if="error" class="error">{{error.message}}</div>
+      <form @submit.prevent = "register">
+          Register
           <div class="email">
               <input type="email" v-model="email" placeholder="email">
           </div>
           <div class="password">
               <input type="password" v-model="password" placeholder="password">
           </div>
-          <button type="submit">Login</button>
+
+          <button type="submit">Register</button>
       </form>
 
-      <div class="error" v-if="error">{{error.message}}</div>
-      <span>Need an account? Click here to <router-link to="/register" /> make an account</span>
   </div>
 </template>
 
@@ -20,12 +20,13 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+
 export default {
   methods:{
-      async login(){
+      async register(){
           try{
-              const login = await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-              console.log(login)
+              const user =  firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+              console.log(user)
               this.$router.replace({name:'Secret'})
           }catch(err){
               console.log(err)
