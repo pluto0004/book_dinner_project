@@ -1,29 +1,73 @@
 <template>
-  <div>
-    <div v-if="error" class="error">{{ error.message }}</div>
-    <form @submit.prevent="register">
-      Register
-      <div class="isCooker">
-        <span>Are you a cooker?</span>
-        <input type="radio" v-model="cooker" name="cooker" id="1" value="Yes"  />
-          <label for="1">Yes</label>
-        <input type="radio" v-model="cooker" name="cooker" id="2" value="No"/>
-          <label for="2">No</label>
 
-      </div>
-      <div class="userName">
-        <input type="text" v-model="userName" placeholder="user name" required/>
-      </div>
-      <div class="email">
-        <input type="email" v-model="email" placeholder="email" required/>
-      </div>
-      <div class="password">
-        <input type="password" v-model="password" placeholder="password" required/>
-      </div>
+  <v-form v-model="valid" @submit.prevent="register">
+    <v-container>
+      <v-row>
+        <v-col
+          cols="5"
+          md="4"
+        >
+          <v-text-field
+            v-model="name"
+            :rules="nameRules"
+            :counter="10"
+            label="User Name"
+            required
+          ></v-text-field>
+        </v-col>
 
-      <button type="submit">Register</button>
-    </form>
-  </div>
+        <v-col
+          cols="5"
+          md="4"
+        >
+          <v-text-field
+            v-model="email"
+            :rules="emailRules"
+            label="E-mail"
+            required
+          ></v-text-field>
+        </v-col>
+
+        <v-col
+          cols="5"
+          md="4"
+        >
+          <v-text-field
+            v-model="password"
+            label="Password"
+            type="Password"
+            required
+          ></v-text-field>
+        </v-col>
+
+        <v-col
+          cols="12"
+          md="4"
+        >
+         <v-radio-group
+            v-model="cooker"
+            mandatory
+            
+            >
+            <v-radio
+                label="Yes"
+                id="true"
+                value="true"
+            ></v-radio>
+            <v-radio
+                label="No"
+                id="false"
+                value="false"
+            ></v-radio>
+            </v-radio-group>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-btn class="mr-4 mb-2"
+      @click="register">Submit
+    </v-btn>
+    <p v-if="error">{{this.error}}</p>
+  </v-form>
 </template>
 
 <script>
@@ -36,14 +80,21 @@ export default {
   methods: {
     async register() {
       try {
+        if(!this.name || !this.password || !this.email){
+            this.error = 'Please fill the form'
+            return
+        }
+        this.error = ''
         const user = firebase
           .auth()
           .createUserWithEmailAndPassword(this.email, this.password);
-        
+
+        if(this.cooker === "true") this.cooker = true;
+        if(this.cooker === "false") this.cooker = false;
         
         await db.collection('users').doc(user.uid).set({
-            name: this.userName,
-            cooker: Boolean(this.cooker)
+            name: this.name,
+            cooker: this.cooker
         })
 
         this.$router.replace({ name: "Calender" });
@@ -51,15 +102,36 @@ export default {
         console.log(err);
       }
     },
+    clear () {
+        this.name = ''
+        this.email = ''
+        this.password = null
+        this.cooker = false
+      },
+      clicked(e){
+          console.log(e.target.id)
+      }
   },
   data() {
     return {
+      valid:false,
       email: "",
       password: "",
-      userName:'',
+      name:'',
       cooker: false,
       error: "",
+      nameRules: [
+        v => !!v || 'Name is required',
+        v => v.length <= 10 || 'Name must be less than 10 characters',
+      ],
+      emailRules: [
+        v => !!v || 'E-mail is required',
+        v => /.+@.+/.test(v) || 'E-mail must be valid',
+      ],
     };
   },
+  computed: {
+
+    },
 };
 </script>

@@ -4,6 +4,7 @@ import router from "./router";
 import axios from "axios";
 import store from "./store";
 import firebase from "firebase/app";
+import 'firebase/analytics';
 import "firebase/firestore";
 import vuetify from "./plugins/vuetify";
 import VueTextareaAutosize from "vue-textarea-autosize";
@@ -25,7 +26,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-// firebase.analytics();
+firebase.analytics();
 
 export const db = firebase.firestore();
 // const usersCollection = db.collection("users");

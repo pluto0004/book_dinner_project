@@ -31,7 +31,7 @@ export default {
           .auth()
           .signInWithEmailAndPassword(this.email, this.password);
         console.log(login);
-        this.$router.replace({ name: "Secret" });
+        this.$router.replace({ name: "Calender" });
       } catch (err) {
         console.log(err);
       }
