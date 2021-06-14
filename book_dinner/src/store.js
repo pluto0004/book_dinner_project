@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-// import { db } from "@/main";
+import { db } from "@/main";
 
 Vue.use(Vuex);
 
@@ -8,6 +8,7 @@ export default new Vuex.Store({
 	state: {
 		isLoggedIn: false,
 		isCooker: false,
+		users: [],
 	},
 	getters: {},
 	mutations: {
@@ -18,5 +19,15 @@ export default new Vuex.Store({
 			state.isCooker = !state.isCooker;
 		},
 	},
-	actions: {},
+	actions: {
+		async getUsers () {
+			let snapshot = await db.collection("users").get();
+			snapshot.forEach((doc) => {
+				let appData = doc.data();
+				appData.id = doc.id;
+				console.log(appData);
+				this.state.users.push(appData);
+			});
+		},
+	},
 });

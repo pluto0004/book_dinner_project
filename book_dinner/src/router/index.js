@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
-import Secret from "../views/Secret.vue";
+import Calender from "../components/Calender.vue";
 import firebase from "firebase/app";
 import "firebase/auth";
 
@@ -26,9 +26,9 @@ const routes = [
     component: Register,
   },
   {
-    path: "/secret",
-    name: "Secret",
-    component: Secret,
+    path: "/calender",
+    name: "Calender",
+    component: Calender,
     meta: { requiresAuth: true },
   },
   {
