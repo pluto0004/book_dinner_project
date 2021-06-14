@@ -2,8 +2,13 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import axios from "axios";
+import store from "./store";
 import firebase from "firebase/app";
+import "firebase/firestore";
+import vuetify from "./plugins/vuetify";
+import VueTextareaAutosize from "vue-textarea-autosize";
 
+Vue.use(VueTextareaAutosize);
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
 
@@ -17,16 +22,27 @@ const firebaseConfig = {
 	appId: "1:763141006467:web:7b2a54fec215b041bf27b6",
 	measurementId: "G-5SQ652L2BX",
 };
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 // firebase.analytics();
+
+export const db = firebase.firestore();
+// const usersCollection = db.collection("users");
+const requestCollection = db.collection("calRequest");
+
+export const createReq = (request) => {
+	return requestCollection.add(request);
+};
 
 let app;
 firebase.auth().onAuthStateChanged((user) => {
 	console.log(user);
 	if (!app) {
 		app = new Vue({
+			store,
 			router,
+			vuetify,
 			render: (h) => h(App),
 		}).$mount("#app");
 	}

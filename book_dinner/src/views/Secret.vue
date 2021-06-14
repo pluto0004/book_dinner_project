@@ -1,15 +1,7 @@
-
 <template>
-  <div>
-    Secret
-  </div>
+  <div>Secret</div>
 </template>
 
 <script>
-
-
-export default {
-  
-
-};
+export default {};
 </script>
