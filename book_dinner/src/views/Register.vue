@@ -1,5 +1,4 @@
 <template>
-
   <v-form v-model="valid" @submit.prevent="register">
     <v-container>
       <v-row>
@@ -22,7 +21,7 @@
         >
           <v-text-field
             v-model="email"
-            :rules="emailRules"
+            type='email'
             label="E-mail"
             required
           ></v-text-field>
@@ -36,6 +35,18 @@
             v-model="password"
             label="Password"
             type="Password"
+            required
+          ></v-text-field>
+        </v-col>
+
+        <v-col
+          cols="5"
+          md="4"
+        >
+          <v-text-field
+            v-model="color"
+            type='color'
+            label="Pick your color (click to open color menu)"
             required
           ></v-text-field>
         </v-col>
@@ -94,10 +105,11 @@ export default {
         
         await db.collection('users').doc(user.uid).set({
             name: this.name,
-            cooker: this.cooker
+            cooker: this.cooker,
+            color: this.color,
         })
 
-        this.$router.replace({ name: "Calender" });
+        this.$router.replace({ name: "Login" });
       } catch (err) {
         console.log(err);
       }
@@ -120,6 +132,7 @@ export default {
       name:'',
       cooker: false,
       error: "",
+      color:'',
       nameRules: [
         v => !!v || 'Name is required',
         v => v.length <= 10 || 'Name must be less than 10 characters',

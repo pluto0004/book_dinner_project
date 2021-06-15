@@ -1,9 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+// import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
-import Calender from "../components/Calender.vue";
+import Calendar from "../components/Calendar.vue";
+import CreateReq from "../components/CreateReq.vue";
+import ReqList from "../views/ReqList.vue";
 import firebase from "firebase/app";
 import "firebase/auth";
 
@@ -12,9 +14,13 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: Home,
+    name: "app",
+    components:{
+      Login,
+      Register,
+    } ,
   },
+
   {
     path: "/login",
     name: "Login",
@@ -26,9 +32,21 @@ const routes = [
     component: Register,
   },
   {
-    path: "/calender",
-    name: "Calender",
-    component: Calender,
+    path: "/calendar",
+    name: "Calendar",
+    component: Calendar,
+    meta: { requiresAuth: true },
+  },
+    {
+    path: "/createreq",
+    name: "CreateReq",
+    component: CreateReq,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/reqlist",
+    name: "ReqList",
+    component: ReqList,
     meta: { requiresAuth: true },
   },
   {
@@ -51,6 +69,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
   const isAuthenticated = firebase.auth().currentUser;
+  console.log(isAuthenticated)
   if (requiresAuth && !isAuthenticated) {
     next("/login");
   } else {

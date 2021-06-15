@@ -1,81 +1,40 @@
 <template>
   <v-app>
-     <v-app-bar
-    color="green"
-    flat
-    max-height="15%"
-    >
-     <TopHeader/>
-     
-      <router-link to="/login">
-          <v-btn
-          class="mx-2"
-          fab
-          dark
-          large
-          color="light blue">
-          <v-icon dark>
-            mdi-account
-          </v-icon>
-        </v-btn>
-        Login
-      </router-link>
-      <router-link to="/register">
-        <v-btn
-            class="mx-2"
-            fab
-            dark
-            large
-            color="light green">
-            <v-icon dark>
-              mdi-account
-            </v-icon>
-        </v-btn>
-          Register
-      </router-link>
-      <router-link to="/">
-        <v-btn
-            class="mx-2"
-            fab
-            dark
-            large
-            color="orange">
-            <v-icon dark>
-              mdi-home
-            </v-icon>
-        </v-btn>
-      </router-link>
-    </v-app-bar>
-     
-    <v-main>
-    <router-view/> 
-
-    </v-main>
+     <Home />
   </v-app>
 </template>
 
 <script>
-// import Home from './views/Home.vue'
-// import Register from './views/Register.vue'
-// import Secret from './views/Secret.vue'
-import TopHeader from './components/Top-Header.vue'
-// import Calender from './components/Calender.vue'
-// import CreateReq from './components/CreateReq.vue'
+import Home from './views/Home.vue'
+import { db } from "@/main";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 
 export default {
   name: "App",
-  components:{
-    // Home,
-    // Register,
-    // Secret,
-    TopHeader,
-    // Calender,
-    // CreateReq
+  async created() {
+
+			let snapshot = await db.collection("calRequest").get();
+			let events = [];
+			snapshot.forEach((doc) => {
+				let appData = doc.data();
+				appData.id = doc.id;
+				events.push(appData);
+			});
+      this.$store.commit("setEventLists", events);
+
+
+      // Get current user
+			const user = await firebase.auth().currentUser;
+      this.$store.commit("setCurrentUser", user);
+
   },
 
-  data: () => ({
-    //
-  }),
+  components:{
+    Home
+
+  },
+
 };
 </script>

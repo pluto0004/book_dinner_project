@@ -1,8 +1,12 @@
+/* eslint-disable */
 <template>
   <v-row class="fill-height">
     <v-col>
       <v-sheet height="64">
         <v-toolbar flat color="white">
+         <v-btn color='primary' class="mr-4" dark @click="dialog = true">
+            New request
+          </v-btn>
           <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
             Today
           </v-btn>
@@ -29,9 +33,6 @@
               </v-btn>
             </template>
             <v-list>
-              <v-list-item @click="type = 'day'">
-                <v-list-item-title>Day</v-list-item-title>
-              </v-list-item>
               <v-list-item @click="type = 'week'">
                 <v-list-item-title>Week</v-list-item-title>
               </v-list-item>
@@ -46,6 +47,11 @@
         </v-toolbar>
       </v-sheet>
 
+      <!-- Add event dialog -->
+      <v-dialog v-model="dialog" max-height=500>
+        <AddNewReq />
+      </v-dialog>
+
       <v-sheet height="600">
         <v-calendar
           ref="calendar"
@@ -57,8 +63,9 @@
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
-          @change="updateRange"
         ></v-calendar>
+
+
         <v-menu
           v-model="selectedOpen"
           :close-on-content-click="false"
@@ -75,19 +82,49 @@
               dark
             >
               <v-btn icon>
-                <v-icon>mdi-pencil</v-icon>
+                <v-icon @click="deleteEvent(selectedEvent.id)">mdi-delete</v-icon>
               </v-btn>
-              <v-toolbar-title v-html="selectedEvent.menu"></v-toolbar-title>
+              <form v-if="currentlyEditing  !== selectedEvent.id" >
+                {{selectedEvent.name}}
+              </form>
+              <form v-else >
+                <textarea-autosize
+                v-model="selectedEvent.name"
+                type="text"
+                style="width:100%"
+                :min-height='20'
+                placeholder="add menu"
+                font-size="8rem"
+                font-color="white"
+                >
+                </textarea-autosize>
+              </form>
+
               <v-spacer></v-spacer>
+      
               <v-btn icon>
-                <v-icon>mdi-heart</v-icon>
-              </v-btn>
-              <v-btn icon>
-                <v-icon>mdi-dots-vertical</v-icon>
+                <v-icon >mdi-dots-vertical</v-icon>
               </v-btn>
             </v-toolbar>
             <v-card-text>
-              <span v-html="selectedEvent.details"></span>
+              <form v-if="currentlyEditing  !== selectedEvent.id" >
+                {{selectedEvent.comment}}
+                <br/>
+                -----------------------------
+                <br/>
+                Requested from {{selectedEvent.userName}}
+              </form>
+              <form v-else >
+
+                <textarea-autosize
+                v-model="selectedEvent.comment"
+                type="text"
+                style="width:100%"
+                :min-height='100'
+                placeholder="add comment"
+                >
+                </textarea-autosize>
+              </form>
             </v-card-text>
             <v-card-actions>
               <v-btn
@@ -95,7 +132,21 @@
                 color="secondary"
                 @click="selectedOpen = false"
               >
-                Cancel
+                Close
+              </v-btn>
+              <v-btn
+                text
+                v-if="currentlyEditing !== selectedEvent.id"
+                @click.prevent="editEvent(selectedEvent)"
+              >
+                Edit
+              </v-btn>
+              <v-btn
+                text
+                v-else
+                @click.prevent="updateEvent(selectedEvent)"
+              >
+                Save
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -107,8 +158,12 @@
 
 <script>
 import {db} from '@/main'
+import AddNewReq from './AddNewReq'
 
   export default {
+    components:{
+      AddNewReq
+    },
     data: () => ({
       today: new Date().toISOString().substr(0,10),
       focus: new Date().toISOString().substr(0,10),
@@ -116,7 +171,6 @@ import {db} from '@/main'
       typeToLabel:{
           month: 'Month',
           week: 'Week',
-          day: 'Day',
           "4day": "4day"
       },
       selectedEvent: {},
@@ -128,18 +182,19 @@ import {db} from '@/main'
       start:null,
       end:null,
       userName:null,
-      color: "#1976D2",
       currentlyEditing: null,
+      dialog: false
     }),
     mounted () {
       this.getEvents()
+      console.log(this.$store.state.currentUser, 'aaaaaa')
     },
     computed:{
 
     },
     methods: {
       async getEvents(){
-          let snapshot = await db.collection('calRequest').get()
+          let snapshot = await db.collection('confirmedReq').get()
           let events = [];
           snapshot.forEach(doc => {
               let appData = doc.data();
@@ -148,6 +203,37 @@ import {db} from '@/main'
               events.push(appData)
           })
           this.events = events
+      },
+      async addEvent(){
+        if(this.name && this.start){
+          await db.collection('calRequest').add({
+            name:this.name,
+            comment:this.comment,
+            start:this.start,
+            end:this.start,
+            // color: this.$store.state.currentUser.color
+          })
+        }else{
+          console.log('Menu and date are required')
+        }
+        this.getEvents();
+        this.name=""
+        this.comment=""
+        this.start=""
+
+      },
+      async updateEvent(ev){
+        await db.collection('calRequest').doc(this.currentlyEditing).update({
+          name:ev.name,
+          comment: ev.comment
+        })
+        this.selectedOpen = false;
+        this.currentlyEditing = null
+      },
+      async deleteEvent(ev){
+        await db.collection('calRequest').doc(ev).delete();
+        this.selectedOpen = false;
+        this.getEvents()
       },
       viewDay ({ date }) {
         this.focus = date
@@ -164,6 +250,9 @@ import {db} from '@/main'
       },
       next () {
         this.$refs.calendar.next()
+      },
+      editEvent(ev){
+        this.currentlyEditing = ev.id
       },
       showEvent ({ nativeEvent, event }) {
         const open = () => {
@@ -182,32 +271,7 @@ import {db} from '@/main'
 
         nativeEvent.stopPropagation()
       },
-      updateRange ({ start, end }) {
-        const events = []
 
-        const min = new Date(`${start.date}T00:00:00`)
-        const max = new Date(`${end.date}T23:59:59`)
-        const days = (max.getTime() - min.getTime()) / 86400000
-        const eventCount = this.rnd(days, days + 20)
-
-        for (let i = 0; i < eventCount; i++) {
-          const allDay = this.rnd(0, 3) === 0
-          const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-          const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-          const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-          const second = new Date(first.getTime() + secondTimestamp)
-
-          events.push({
-            name: this.names[this.rnd(0, this.names.length - 1)],
-            start: first,
-            end: second,
-            color: this.colors[this.rnd(0, this.colors.length - 1)],
-            timed: !allDay,
-          })
-        }
-
-        this.events = events
-      },
       rnd (a, b) {
         return Math.floor((b - a + 1) * Math.random()) + a
       },
