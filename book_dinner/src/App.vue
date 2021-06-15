@@ -31,11 +31,17 @@ export default {
         console.log('run!, created', user)
         this.$store.commit("setCurrentUser", user);
         this.$store.commit("setLogin");
+
+      // Get cooker
+       const snapshot = await db.collection('users').get()
+          snapshot.forEach(dbUser => {
+              console.log(dbUser.id, user.uid, 'this')
+              if(dbUser.id === user.uid){
+                this.$store.commit("logInAsCooker");
+              }
+          });
       }
 
-  },
-
-  computed:{
   },
 
   components:{

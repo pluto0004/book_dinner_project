@@ -96,18 +96,20 @@ export default {
             return
         }
         this.error = ''
-        const user = firebase
-          .auth()
-          .createUserWithEmailAndPassword(this.email, this.password);
-
-        if(this.cooker === "true") this.cooker = true;
-        if(this.cooker === "false") this.cooker = false;
-        
-        await db.collection('users').doc(user.uid).set({
+        firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(cred =>
+        {
+          return  db.collection('users').doc(cred.user.uid).set({
             name: this.name,
             cooker: this.cooker,
             color: this.color,
         })
+        })
+
+        if(this.cooker === "true") this.cooker = true;
+        if(this.cooker === "false") this.cooker = false;
+
+        
+       
 
         this.$router.replace({ name: "Login" });
       } catch (err) {

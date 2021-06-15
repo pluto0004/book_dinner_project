@@ -48,7 +48,9 @@
       </v-sheet>
 
       <!-- Add event dialog -->
-      <v-dialog v-model="dialog" max-height=500>
+      <v-dialog
+      v-model="dialog"
+      max-width="600px">
         <AddNewReq />
       </v-dialog>
 
@@ -187,7 +189,6 @@ import AddNewReq from './AddNewReq'
     }),
     mounted () {
       this.getEvents()
-      console.log(this.$store.state.currentUser, 'aaaaaa')
     },
     computed:{
 
@@ -199,28 +200,9 @@ import AddNewReq from './AddNewReq'
           snapshot.forEach(doc => {
               let appData = doc.data();
               appData.id = doc.id
-              console.log(appData)
               events.push(appData)
           })
           this.events = events
-      },
-      async addEvent(){
-        if(this.name && this.start){
-          await db.collection('calRequest').add({
-            name:this.name,
-            comment:this.comment,
-            start:this.start,
-            end:this.start,
-            // color: this.$store.state.currentUser.color
-          })
-        }else{
-          console.log('Menu and date are required')
-        }
-        this.getEvents();
-        this.name=""
-        this.comment=""
-        this.start=""
-
       },
       async updateEvent(ev){
         await db.collection('calRequest').doc(this.currentlyEditing).update({
@@ -231,7 +213,7 @@ import AddNewReq from './AddNewReq'
         this.currentlyEditing = null
       },
       async deleteEvent(ev){
-        await db.collection('calRequest').doc(ev).delete();
+        await db.collection('confirmedReq').doc(ev).delete();
         this.selectedOpen = false;
         this.getEvents()
       },
@@ -256,7 +238,6 @@ import AddNewReq from './AddNewReq'
       },
       showEvent ({ nativeEvent, event }) {
         const open = () => {
-            console.log(event)
           this.selectedEvent = event
           this.selectedElement = nativeEvent.target
           setTimeout(() => this.selectedOpen = true, 10)

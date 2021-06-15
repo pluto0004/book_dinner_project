@@ -133,7 +133,7 @@ export default {
         if(this.$store.state.currentUser){
         this.$store.commit("setCurrentUser", '');
         }
-        this.$router.replace({name:"Login"})
+        this.$router.replace({name:"app"})
       } catch (err) {
         console.log(err);
       }

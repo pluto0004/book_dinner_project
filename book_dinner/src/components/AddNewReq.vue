@@ -12,6 +12,7 @@
                 Send a request
               </v-btn>
             </v-form>
+              {{error}}
           </v-container>
         </v-card>
 </v-app>
@@ -30,21 +31,28 @@ export default {
       end:null,
       userName:null,
       currentlyEditing: null,
-      dialog: false
+      dialog: false,
+      error:'',
     }),
 
   methods: {
       async addEvent(){
-        if(this.name && this.start){
-          await db.collection('calRequest').add({
-            name:this.name,
-            comment:this.comment,
-            start:this.start,
-            end:this.start,
-            // color: this.$store.state.currentUser.color
-          })
-        }else{
-          console.log('Menu and date are required')
+        try{
+          if(this.name && this.start){
+            console.log('here')
+            await db.collection('calRequest').add({
+              name:this.name,
+              comment:this.comment,
+              start:this.start,
+              end:this.start,
+              // color: this.$store.state.currentUser.color
+            })
+          }else{
+              this.error = 'Please fill the menu and the date'
+          }
+
+        }catch(error){
+          console.log(console.error())
         }
         this.getEvents()
         this.name=""
