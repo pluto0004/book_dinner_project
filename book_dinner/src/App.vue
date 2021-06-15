@@ -21,14 +21,21 @@ export default {
 				let appData = doc.data();
 				appData.id = doc.id;
 				events.push(appData);
-			});
+      });
       this.$store.commit("setEventLists", events);
 
 
       // Get current user
-			const user = await firebase.auth().currentUser;
-      this.$store.commit("setCurrentUser", user);
+      const user = await firebase.auth().currentUser;
+      if(user !==  null){
+        console.log('run!, created', user)
+        this.$store.commit("setCurrentUser", user);
+        this.$store.commit("setLogin");
+      }
 
+  },
+
+  computed:{
   },
 
   components:{

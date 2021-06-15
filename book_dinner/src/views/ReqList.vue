@@ -15,34 +15,32 @@
         >
         
             <v-list-item two-line >
-                event.name
-            <v-list-item-content>
-                <div class="text-overline mb-4">
-                event.name
-                </div>
-                <v-list-item-title class="text-h5 mb-1">
-                Headline 5
-                </v-list-item-title>
-                <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
-            </v-list-item-content>
-
-            <v-list-item-avatar
-                tile
-                size="80"
-                color="grey"
-            ></v-list-item-avatar>
-            </v-list-item>
-
-        <!-- 
+                <v-list-item-content>
+                    <div class="text-overline mb-4">
+                    Menu                </div>
+                    <v-list-item-title class="text-h5 mb-1">
+                    {{event.name}}
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                        
+                        {{event.comment}}
+                        <br />
+                        <br />
+                        Date: {{event.start}}
+                    </v-list-item-subtitle>
+                </v-list-item-content>
+            </v-list-item>        
             <v-card-actions>
             <v-btn
                 outlined
                 rounded
                 text
+                v-if="$store.state.isCooker===true"
+                @click="acceptClicked"
             >
-                Button
+                Accept
             </v-btn>
-            </v-card-actions> -->
+            </v-card-actions>
         </v-card>
     </div>
 </template>
@@ -50,7 +48,7 @@
 <script>
 // import firebase from "firebase/app";
 // import "firebase/auth";
-// import { db } from "@/main";
+import { db } from "@/main";
 import AddNewReq from '../components/AddNewReq'
 
 
@@ -63,6 +61,23 @@ import AddNewReq from '../components/AddNewReq'
 
 
     }),
+    methods:{
+        async getEvents(){
+          let snapshot = await db.collection('calRequest').get()
+          let events = [];
+          snapshot.forEach(doc => {
+              let appData = doc.data();
+              appData.id = doc.id
+              console.log(appData)
+              events.push(appData)
+          })
+         this.$store.commit("setEventLists", events);
+
+      },
+      async acceptClicked(){
+          
+      }
+    }
     
   }
 </script>

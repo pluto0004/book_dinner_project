@@ -3,7 +3,7 @@
     <v-app-bar>
       <!-- Home -->
       <v-btn icon>
-          <router-link to="/home">
+          <router-link to="/login">
             <v-btn
                 class="mx-2"
                 fab
@@ -18,7 +18,7 @@
         </v-btn>
      
              <!-- Register -->
-        <v-btn v-if="$store.state.currentUser.uid.length === 0"  icon>
+        <v-btn   icon>
           <router-link to="/register">
           <v-btn
               class="mx-2"
@@ -34,7 +34,7 @@
         </v-btn>
       
        <!-- Login -->
-        <v-btn v-if="$store.state.currentUser.uid.length === 0"  icon>
+        <v-btn icon>
           <router-link to="/login">
             <v-btn
             class="mx-2"
@@ -50,7 +50,7 @@
         </v-btn>
 
       <!-- List -->
-        <v-btn v-if="$store.state.currentUser.uid.length"  icon>
+        <v-btn   icon>
           <router-link to="/reqlist">
             <v-btn
                 class="mx-2"
@@ -66,7 +66,7 @@
         </v-btn>
 
        <!-- Calendar -->
-        <v-btn v-if="$store.state.currentUser.uid.length" icon>
+        <v-btn icon>
           <router-link to="/calendar">
             <v-btn
                 class="mx-2"
@@ -82,7 +82,7 @@
         </v-btn>
 
         <!-- Sign out -->
-        <v-btn v-if="$store.state.currentUser" icon>
+        <v-btn icon>
             <v-btn
                 class="mx-2"
                 fab
@@ -94,13 +94,13 @@
                   mdi-exit-to-app
                 </v-icon>
             </v-btn>
-        </v-btn>
+        </v-btn> 
 
         <p class="text-center text-align ml-3 mt-4" v-if="!$store.state.currentUser">
          Please login / register
         </p>
         <p class="text-center text-align ml-3 mt-4" v-else>
-         You are signed in as <b>{{$store.state.currentUser.email}}</b>
+         You are signed in as <b>{{$store.state.currentUser.email}} {{$store.state.isloggedIn}}</b>
         </p>
     </v-app-bar>
   </div>
@@ -111,8 +111,15 @@ import firebase from "firebase/app";
 import "firebase/auth";
 
 export default {
-  created() {
+  async mounted() {
     firebase.auth().onAuthStateChanged(user => this.$store.state.isloggedIn = !!user)
+
+     // Get current user
+      const user = await firebase.auth().currentUser;
+      if(!user){
+        this.$store.commit("setCurrentUser", user);
+        this.$store.commit("setLogin");
+      }
   },
   data() {
     return {

@@ -41,6 +41,8 @@
 <script>
 import firebase from "firebase/app";
 import "firebase/auth";
+import {db} from '@/main'
+
 
 export default {
     components: {
@@ -52,7 +54,15 @@ export default {
           .auth()
           .signInWithEmailAndPassword(this.email, this.password);
         
-        const currentUser = firebase.auth().currentUser
+          const currentUser = await firebase.auth().currentUser
+          const snapshot = await db.collection('users').get()
+
+          snapshot.forEach(dbUser => {
+              console.log(dbUser.data(), 'This is db user!')
+              if(dbUser.data().cooker === true){
+                this.$store.commit("logInAsCooker");
+              }
+          });
         
           this.$store.commit("setCurrentUser", currentUser);
           this.$router.replace({ name: "Calendar" });

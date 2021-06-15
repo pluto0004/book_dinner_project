@@ -8,7 +8,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		// isLoggedIn: false,
+		isLoggedIn: false,
 		isCooker: false,
 		register: false,
 		currentUser: [],
@@ -23,21 +23,20 @@ export default new Vuex.Store({
 		},
 	},
 	mutations: {
-		// setLoggedIn (state) {
-		// 	state.isLoggedIn = !state.isLoggedIn;
-		// 	console.log(state.isLoggedIn);
-		// },
 		setRegister (state) {
 			state.register = !state.register;
 		},
 		logInAsCooker (state) {
-			state.isCooker = !state.isCooker;
+			state.isCooker = true
 		},
 		setEventLists (state, lists) {
 			state.eventLists = lists;
 		},
 		setCurrentUser (state, user) {
 			state.currentUser = user;
+		},
+		setLogin (state) {
+			state.isLoggedIn = true;
 		},
 	},
 	actions: {

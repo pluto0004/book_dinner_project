@@ -46,12 +46,23 @@ export default {
         }else{
           console.log('Menu and date are required')
         }
-        this.getEvents();
+        this.getEvents()
         this.name=""
         this.comment=""
         this.start=""
 
-    },
+    }, 
+    async getEvents(){
+          let snapshot = await db.collection('calRequest').get()
+          let events = [];
+          snapshot.forEach(doc => {
+              let appData = doc.data();
+              appData.id = doc.id
+              console.log(appData)
+              events.push(appData)
+          })
+          this.events = events
+      },
 
 
 }

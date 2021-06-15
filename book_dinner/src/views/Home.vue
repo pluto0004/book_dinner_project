@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import TopHeader from '../components/Top-Header.vue'
+import TopHeader from '../components/Top-Header'
 // import Login from '../views/Login.vue'
 
 export default {
@@ -24,11 +24,7 @@ export default {
       group: null,
     }),
 
-    watch: {
-      group () {
-        this.drawer = false
-      },
-    },
+
 };
 
 

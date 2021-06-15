@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-// import Home from "../views/Home.vue";
+import App from "../App.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Calendar from "../components/Calendar.vue";
@@ -10,12 +10,14 @@ import firebase from "firebase/app";
 import "firebase/auth";
 
 Vue.use(VueRouter);
+Vue.use(App)
 
 const routes = [
   {
     path: "/",
     name: "app",
     components:{
+      App,
       Login,
       Register,
     } ,
