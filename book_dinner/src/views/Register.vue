@@ -1,9 +1,9 @@
 <template>
   <v-form v-model="valid" @submit.prevent="register">
-    <v-container>
-      <v-row>
+    <v-container class="ml-2" >
+      <v-row >
         <v-col
-          cols="5"
+          cols="6"
           md="4"
         >
           <v-text-field
@@ -16,7 +16,7 @@
         </v-col>
 
         <v-col
-          cols="5"
+          cols="6"
           md="4"
         >
           <v-text-field
@@ -28,7 +28,7 @@
         </v-col>
 
         <v-col
-          cols="5"
+          cols="6"
           md="4"
         >
           <v-text-field
@@ -40,7 +40,7 @@
         </v-col>
 
         <v-col
-          cols="5"
+          cols="6"
           md="4"
         >
           <v-text-field

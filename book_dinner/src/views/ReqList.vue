@@ -110,6 +110,9 @@ import AddNewReq from '../components/AddNewReq'
       selectedEvent: {},
       currentlyEditing:null
     }),
+    created(){
+      this.getEvents()
+    },
     methods:{
         async getEvents(){
           let snapshot = await db.collection('calRequest').get()

@@ -51,7 +51,7 @@
       <v-dialog
       v-model="dialog"
       max-width="600px">
-        <AddNewReq />
+        <AddNewReq @dialog='dialog = $event' @close='getEvents'/>
       </v-dialog>
 
       <v-sheet height="600">
@@ -187,8 +187,8 @@ import AddNewReq from './AddNewReq'
       currentlyEditing: null,
       dialog: false
     }),
-    mounted () {
-      this.getEvents()
+    async mounted () {
+        this.getEvents()
     },
     computed:{
 

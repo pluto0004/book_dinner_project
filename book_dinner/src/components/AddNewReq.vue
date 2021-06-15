@@ -39,13 +39,14 @@ export default {
       async addEvent(){
         try{
           if(this.name && this.start){
+            console.log(this.$store.state.currentUser)
             await db.collection('calRequest').add({
               name:this.name,
               comment:this.comment,
               start:this.start,
               end:this.start,
-              userName:this.$store.state.currentUser.name,
-              color: this.$store.state.currentUser.color
+              userName:this.$store.state.currentUser.email,
+              color: 'green'
             })
           }else{
               this.error = 'Please fill the menu and the date'
@@ -72,7 +73,6 @@ export default {
           })
           this.events = events
       },
-
 
 }
 }
