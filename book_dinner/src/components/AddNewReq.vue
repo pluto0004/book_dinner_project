@@ -39,21 +39,23 @@ export default {
       async addEvent(){
         try{
           if(this.name && this.start){
-            console.log('here')
             await db.collection('calRequest').add({
               name:this.name,
               comment:this.comment,
               start:this.start,
               end:this.start,
-              // color: this.$store.state.currentUser.color
+              userName:this.$store.state.currentUser.name,
+              color: this.$store.state.currentUser.color
             })
           }else{
               this.error = 'Please fill the menu and the date'
+              return
           }
-
         }catch(error){
-          console.log(console.error())
+          console.log(error)
         }
+        this.$emit('dialog', this.dialog)
+        this.$emit('close')
         this.getEvents()
         this.name=""
         this.comment=""
@@ -66,7 +68,6 @@ export default {
           snapshot.forEach(doc => {
               let appData = doc.data();
               appData.id = doc.id
-              console.log(appData)
               events.push(appData)
           })
           this.events = events

@@ -122,9 +122,6 @@ export default {
         this.password = null
         this.cooker = false
       },
-      clicked(e){
-          console.log(e.target.id)
-      }
   },
   data() {
     return {

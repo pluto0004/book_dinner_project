@@ -39,7 +39,6 @@ export default {
         const dbUsers =  await db.collection('users')
 
         dbUsers.forEach(dbUser => {
-            console.log(dbUser, "aaaaaaaa")
             if(dbUser.id === user.uid) color = dbUser.color
         })
         

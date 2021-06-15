@@ -28,16 +28,14 @@ export default {
       // Get current user
       const user = await firebase.auth().currentUser;
       if(user !==  null){
-        console.log('run!, created', user)
-        this.$store.commit("setCurrentUser", user);
         this.$store.commit("setLogin");
 
       // Get cooker
        const snapshot = await db.collection('users').get()
           snapshot.forEach(dbUser => {
-              console.log(dbUser.id, user.uid, 'this')
               if(dbUser.id === user.uid){
                 this.$store.commit("logInAsCooker");
+                this.$store.commit("setCurrentUser", dbUser.data()); 
               }
           });
       }

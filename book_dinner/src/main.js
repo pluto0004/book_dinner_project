@@ -37,8 +37,7 @@ export const createReq = (request) => {
 };
 
 let app;
-firebase.auth().onAuthStateChanged((user) => {
-	console.log(user);
+firebase.auth().onAuthStateChanged(() => {
 	if (!app) {
 		app = new Vue({
 			store,

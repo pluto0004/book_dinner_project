@@ -100,7 +100,7 @@
          Please login / register
         </p>
         <p class="text-center text-align ml-3 mt-4" v-else>
-         You are signed in as <b>{{$store.state.currentUser.email}} {{$store.state.isloggedIn}}</b>
+         You are signed in as <b>{{$store.state.currentUser.name}}</b>
         </p>
     </v-app-bar>
   </div>

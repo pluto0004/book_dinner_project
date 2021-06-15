@@ -45,7 +45,6 @@ export default new Vuex.Store({
 			snapshot.forEach((doc) => {
 				let appData = doc.data();
 				appData.id = doc.id;
-				console.log(appData);
 				this.state.users.push(appData);
 			});
 		},
