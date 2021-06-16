@@ -1,7 +1,7 @@
 <template>
  <v-app>
       <TopHeader/>
-        <router-view/>
+    <router-view/>
 </v-app>
 
 
@@ -9,21 +9,19 @@
 
 <script>
 import TopHeader from '../components/Top-Header'
-// import Login from '../views/Login.vue'
 
 export default {
   name: "Home",
 
   components: {
     TopHeader,
-    // Login,
-    // Calender
   },
-  data: () => ({
-      drawer: false,
-      group: null,
-    }),
-
+  computed:{
+    user(){
+      console.log(this.$store.state.isLoggedIn, 'computed')
+      return this.$store.state.isLoggedIn
+    },
+  },
 
 };
 

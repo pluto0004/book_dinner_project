@@ -4,7 +4,7 @@ import router from "./router";
 import axios from "axios";
 import store from "./store";
 import firebase from "firebase/app";
-import 'firebase/analytics';
+import "firebase/analytics";
 import "firebase/firestore";
 import vuetify from "./plugins/vuetify";
 import VueTextareaAutosize from "vue-textarea-autosize";
@@ -34,6 +34,16 @@ const requestCollection = db.collection("calRequest");
 
 export const createReq = (request) => {
 	return requestCollection.add(request);
+};
+
+export default {
+	onAuth () {
+		firebase.auth().onAuthStateChanged((user) => {
+			user = user ? user : {};
+			store.commit("setCurrentUser", user);
+			store.commit("setLogin", user.uid ? true : false);
+		});
+	},
 };
 
 let app;

@@ -1,14 +1,21 @@
 <template>
     <div>
-      <v-btn color='primary' class="mr-4" dark @click="dialog = true">
-            New request
-      </v-btn>
-      <v-dialog
-      v-model="dialog"
-      max-width="600px"
-      >
-        <AddNewReq @dialog='dialog = $event' @close='getEvents'/>
-      </v-dialog>
+      <v-row align="center" justify="center" class="mt-4" >
+        <v-btn 
+        large
+        color='primary' 
+        class="mr-4 mt-4" 
+        dark 
+        @click="dialog = true">
+              New request
+        </v-btn>
+        <v-dialog
+        v-model="dialog"
+        max-width="600px"        
+        >
+          <AddNewReq @dialog='dialog = $event' @close='getEvents'/>
+        </v-dialog>
+      </v-row>
       
       <v-row class="mt-4">
         <v-col class="flex-direction: row">
@@ -55,7 +62,7 @@
                           <br />
                           Date: {{event.start}}
                           <br />
-                          Request from {{event.userName}}
+                          Request from {{$store.state.userName}}
                       </v-list-item-subtitle>
                   </v-list-item-content>
               </v-list-item>        
@@ -99,6 +106,7 @@
 // import "firebase/auth";
 import { db } from "@/main";
 import AddNewReq from '../components/AddNewReq'
+
 
 
   export default {

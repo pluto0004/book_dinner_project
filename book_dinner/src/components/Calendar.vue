@@ -1,6 +1,6 @@
 /* eslint-disable */
 <template>
-  <v-row class="fill-height">
+  <v-row class="fill-height" >
     <v-col>
       <v-sheet height="64">
         <v-toolbar flat color="white">
@@ -16,11 +16,13 @@
           <v-btn fab text small color="grey darken-2" @click="next">
             <v-icon small>mdi-chevron-right</v-icon>
           </v-btn>
-          <v-toolbar-title v-if="$refs.calendar">
+
+          <!-- モバイルは非表示 -->
+          <v-toolbar-title v-if="$refs.calendar" class="hidden-sm-and-down">
             {{ $refs.calendar.title }}
           </v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-menu bottom right>
+          <v-menu bottom right v-if="$vuetify.breakpoint.lgOnly">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 outlined
@@ -44,6 +46,7 @@
               </v-list-item>
             </v-list>
           </v-menu>
+          
         </v-toolbar>
       </v-sheet>
 
@@ -190,9 +193,7 @@ import AddNewReq from './AddNewReq'
     async mounted () {
         this.getEvents()
     },
-    computed:{
 
-    },
     methods: {
       async getEvents(){
           let snapshot = await db.collection('confirmedReq').get()
@@ -205,7 +206,7 @@ import AddNewReq from './AddNewReq'
           this.events = events
       },
       async updateEvent(ev){
-        await db.collection('calRequest').doc(this.currentlyEditing).update({
+        await db.collection('confirmedReq').doc(this.currentlyEditing).update({
           name:ev.name,
           comment: ev.comment
         })

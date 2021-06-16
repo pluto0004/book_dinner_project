@@ -33,8 +33,9 @@
             <v-btn class="mr-4 mb-2 ml-4"
             @click="login">Login
             </v-btn>
-            Need an account? Click <router-link to="/register" @click="registerClicked"> here </router-link> to make an account
-            <p v-if="error">{{this.error}}</p>
+            <br/>
+            <span class="ml-2 text-xl-body-2">Need an account? Click <router-link to="/register" @click="registerClicked"> here </router-link> to make an account
+            <p v-if="error">{{this.error}}</p></span> 
         </v-form>
     </v-main>
 </template>

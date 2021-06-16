@@ -3,7 +3,7 @@
     <v-app-bar>
       <!-- Home -->
       <v-btn icon>
-          <router-link to="/">
+          <router-link to="/about">
             <v-btn
                 class="mx-2"
                 fab
@@ -16,9 +16,25 @@
             </v-btn>
           </router-link>
         </v-btn>
+
+        <!-- Login -->
+        <v-btn icon v-if="user === false">
+          <router-link to="/login">
+            <v-btn
+            class="mx-2"
+            fab
+            dark
+            small
+            color="light blue">
+            <v-icon dark>
+              mdi-login
+            </v-icon>
+          </v-btn>
+        </router-link>
+        </v-btn>
      
         <!-- Register -->
-        <v-btn icon v-if="$store.state.isloggedIn === false">
+        <v-btn icon v-if="user === false">
           <router-link to="/register">
           <v-btn
               class="mx-2"
@@ -33,24 +49,10 @@
         </router-link>
         </v-btn>
       
-       <!-- Login -->
-        <v-btn icon v-if="$store.state.isloggedIn === false">
-          <router-link to="/login">
-            <v-btn
-            class="mx-2"
-            fab
-            dark
-            small
-            color="light blue">
-            <v-icon dark>
-              mdi-login
-            </v-icon>
-          </v-btn>
-        </router-link>
-        </v-btn>
+
 
       <!-- List -->
-        <v-btn  icon v-if="$store.state.isloggedIn === true">
+        <v-btn  icon v-if="user === true">
           <router-link to="/reqlist">
             <v-btn
                 class="mx-2"
@@ -66,7 +68,7 @@
         </v-btn>
 
        <!-- Calendar -->
-        <v-btn icon v-if="$store.state.isloggedIn === true">
+        <v-btn icon v-if="user === true">
           <router-link to="/calendar">
             <v-btn
                 class="mx-2"
@@ -82,7 +84,7 @@
         </v-btn>
 
         <!-- Sign out -->
-        <v-btn icon v-if="$store.state.isloggedIn === true">
+        <v-btn icon >
             <v-btn
                 class="mx-2"
                 fab
@@ -96,11 +98,8 @@
             </v-btn>
         </v-btn> 
 
-        <p class="text-center text-align ml-3 mt-4" v-if="$store.state.isloggedIn === false">
-         Please login / register
-        </p>
-        <p class="text-center text-align ml-3 mt-4" v-else>
-         Welcome <b>{{$store.state.currentUser.email}} !</b>
+        <p class="text-center text-align ml-3 mt-4" v-if="user === true">
+         Welcome <b>{{$store.state.userName}} !</b>
         </p>
     </v-app-bar>
   </div>
@@ -109,16 +108,28 @@
 <script>
 import firebase from "firebase/app";
 import "firebase/auth";
+import Firebase from "../main.js"
 
 export default {
-  async mounted() {
-    await firebase.auth().onAuthStateChanged(user => this.$store.state.isloggedIn = !!user)
-    console.log(this.$store.state.isloggedIn)
+   created() {
+    // await firebase.auth().onAuthStateChanged(user => this.$store.state.isloggedIn = !!user)
+    console.log(this.$store.state.isLoggedIn, 'created')
+    Firebase.onAuth()
   },
   data() {
     return {
       loggedIn: false,
     };
+  },
+  computed:{
+    user(){
+      console.log(this.$store.state.isLoggedIn, 'computed')
+      return this.$store.state.isLoggedIn
+    },
+    userStatus(){
+      console.log(this.$store.state.currentUser, 'computed')
+      return this.$store.state.currentUser
+    }
   },
   methods: {
     async signOut() {
@@ -127,7 +138,7 @@ export default {
         if(this.$store.state.currentUser){
         this.$store.commit("setCurrentUser", '');
         }
-        this.$router.replace({name:"app"})
+        this.$router.replace({name:"About"})
       } catch (err) {
         console.log(err);
       }

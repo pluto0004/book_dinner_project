@@ -9,10 +9,11 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		isLoggedIn: false,
+		currentUser: {},
 		isCooker: false,
 		register: false,
-		currentUser: [],
 		eventLists: [],
+		userName: "",
 	},
 	getters: {},
 
@@ -23,20 +24,23 @@ export default new Vuex.Store({
 		},
 	},
 	mutations: {
-		setRegister (state) {
-			state.register = !state.register;
-		},
-		logInAsCooker (state) {
-			state.isCooker = true
-		},
-		setEventLists (state, lists) {
-			state.eventLists = lists;
+		setLogin (state, status) {
+			state.isLoggedIn = status;
 		},
 		setCurrentUser (state, user) {
 			state.currentUser = user;
 		},
-		setLogin (state) {
-			state.isLoggedIn = true;
+		setUserName (state, name) {
+			state.userName = name;
+		},
+		setRegister (state) {
+			state.register = !state.register;
+		},
+		logInAsCooker (state) {
+			state.isCooker = true;
+		},
+		setEventLists (state, lists) {
+			state.eventLists = lists;
 		},
 	},
 	actions: {

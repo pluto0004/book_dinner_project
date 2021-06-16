@@ -43,30 +43,33 @@
           cols="6"
           md="4"
         >
-          <v-text-field
-            v-model="color"
-            type='color'
-            label="Pick your color (click to open color menu)"
-            required
+           <v-text-field
+            label="Pick your color"
           ></v-text-field>
+          <v-color-picker
+            v-model="color"
+            required
+            class="ma-2"
+            hide-inputs
+            hide-canvas
+          ></v-color-picker>
         </v-col>
-
+        <br/>
         <v-col
           cols="12"
           md="4"
         >
          <v-radio-group
             v-model="cooker"
-            mandatory
-            
+            mandatory            
             >
             <v-radio
-                label="Yes"
+                label="I register as a cooker"
                 id="true"
                 value="true"
             ></v-radio>
             <v-radio
-                label="No"
+                label="I register as an eater"
                 id="false"
                 value="false"
             ></v-radio>
@@ -85,6 +88,8 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import { db } from "@/main";
+import Firebase from "../main.js"
+
 
 
 export default {
@@ -96,8 +101,11 @@ export default {
             return
         }
         this.error = ''
-        firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(cred =>
+        await firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then( cred =>
         {
+           cred.user.updateProfile({
+            displayName: this.name
+          })
           return  db.collection('users').doc(cred.user.uid).set({
             name: this.name,
             cooker: this.cooker,
@@ -107,11 +115,11 @@ export default {
 
         if(this.cooker === "true") this.cooker = true;
         if(this.cooker === "false") this.cooker = false;
+        this.$store.commit("setUserName", this.name);
+        Firebase.onAuth()
 
-        
-       
 
-        this.$router.replace({ name: "Login" });
+        this.$router.replace({ name: "App" });
       } catch (err) {
         console.log(err);
       }

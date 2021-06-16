@@ -1,8 +1,6 @@
 <template>
- <v-app>
-      <!-- Add event dialog -->
-      
-        <v-card>
+ <v-app >
+        <v-card >
           <v-container>
             <v-form @submit.prevent='addEvent'>
               <v-text-field v-model="name" type='text' label='menu (required)'></v-text-field>

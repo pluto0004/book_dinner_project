@@ -30,7 +30,7 @@ export default {
       if(user !==  null){
         console.log('run created')
         this.$store.commit("setCurrentUser", user); 
-        this.$store.commit("setLogin");
+        this.$store.commit("setLogin", true);
 
       // Get cooker
        const snapshot = await db.collection('users').get()
@@ -43,10 +43,22 @@ export default {
 
   },
 
-  components:{
-    Home
 
+  components:{
+    Home,
   },
 
 };
 </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap" rel="stylesheet');
+#app {
+/* Google fontsで導入したいfontsからfont-familyを取ってくる */
+  font-family: 'Nunito', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+</style>
