@@ -112,8 +112,6 @@ import Firebase from "../main.js"
 
 export default {
    created() {
-    // await firebase.auth().onAuthStateChanged(user => this.$store.state.isloggedIn = !!user)
-    console.log(this.$store.state.isLoggedIn, 'created')
     Firebase.onAuth()
   },
   data() {
@@ -124,6 +122,8 @@ export default {
   computed:{
     user(){
       console.log(this.$store.state.isLoggedIn, 'computed')
+      console.log(this.$store.state, 'created')
+
       return this.$store.state.isLoggedIn
     },
     userStatus(){

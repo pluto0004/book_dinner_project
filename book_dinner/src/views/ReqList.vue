@@ -17,7 +17,7 @@
         </v-dialog>
       </v-row>
       
-      <v-row class="mt-4">
+      <v-row class="mt-4 ml-4">
         <v-col class="flex-direction: row">
           <v-card
               class="mt-4 ml-2"
@@ -62,7 +62,7 @@
                           <br />
                           Date: {{event.start}}
                           <br />
-                          Request from {{$store.state.userName}}
+                          Request from {{event.userName}}
                       </v-list-item-subtitle>
                   </v-list-item-content>
               </v-list-item>        
@@ -71,7 +71,7 @@
                   outlined
                   rounded
                   text
-                  v-if="$store.state.isCooker===true"
+                  v-if="$store.state.isCooker === true"
                   @click.prevent="acceptClicked(event)"
 
               >
@@ -102,8 +102,7 @@
 </template>
 
 <script>
-// import firebase from "firebase/app";
-// import "firebase/auth";
+
 import { db } from "@/main";
 import AddNewReq from '../components/AddNewReq'
 
@@ -140,8 +139,8 @@ import AddNewReq from '../components/AddNewReq'
               comment: event.comment,
               start: event.start,
               end: event.start,
-              color: event.color,
-              userName: event.userName
+              color: this.$store.state.userColor,
+              userName: this.$store.state.userName
             })
             await this.deleteEvent(event.id)
         }catch(error){

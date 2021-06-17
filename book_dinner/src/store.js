@@ -14,6 +14,8 @@ export default new Vuex.Store({
 		register: false,
 		eventLists: [],
 		userName: "",
+		userEmail:'',
+		userColor: "green",
 	},
 	getters: {},
 
@@ -33,11 +35,17 @@ export default new Vuex.Store({
 		setUserName (state, name) {
 			state.userName = name;
 		},
+		setUserEmail(state, email){
+			state.userName = email;
+		},
+		setColor (state, color) {
+			state.userColor = color;
+		},
 		setRegister (state) {
 			state.register = !state.register;
 		},
-		logInAsCooker (state) {
-			state.isCooker = true;
+		logInAsCooker (state, cooker) {
+			state.isCooker = cooker;
 		},
 		setEventLists (state, lists) {
 			state.eventLists = lists;

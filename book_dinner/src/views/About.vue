@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1 class="text-center mt-5">UCHI食 🍙</h1>
+    <h1 class="text-center mt-5 ">UCHI食 <img src="../../public/icon.png" alt="icon" width="25rem" align="center"></h1>
           <v-main>
                 <v-container
                   class="fill-height"
@@ -17,13 +17,19 @@
                     >
                       <div class="text-center pa-4">
                           <div class="my-4" v-if="user === true">
-                              <v-btn rounded width="80%" color="primary">Check all requests <router-link to="/reqlist"/> </v-btn>
+                              <router-link to="/reqlist"><v-btn rounded width="80%" color="primary">Check all requests </v-btn></router-link> 
+                          </div>
+                          <div class="my-4" v-if="user === false">
+                            <router-link to="/login"><v-btn rounded width="80%" color="primary">Login</v-btn></router-link> 
+                          </div>
+                          <div class="my-4" v-if="user === true">
+                            <v-btn @click="signOut" rounded width="80%" color="primary">Logout</v-btn>
                           </div>
                           <div class="my-4">
-                              <v-btn href="/login" rounded width="80%" color="primary">Login</v-btn>
+                              <router-link to="/register"><v-btn rounded width="80%" color="primary">Register</v-btn></router-link> 
                           </div>
-                          <div class="my-4">
-                              <v-btn href="/register" rounded width="80%" color="primary">Register</v-btn>
+                          <div class="my-4" v-if="user === true">
+                            <v-btn @click="addAdmin" rounded width="80%" color="primary">Admin</v-btn>
                           </div>
                       </div>
                     </v-col>
@@ -34,6 +40,10 @@
 </template>
 
 <script>
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/functions";
+import {func} from "../main.js"
 
 export default {
   name: "About",
@@ -44,6 +54,27 @@ export default {
       console.log(this.$store.state.isLoggedIn, 'computed')
       return this.$store.state.isLoggedIn
     },
+  },
+  methods: {
+    async signOut() {
+      try {
+        await firebase.auth().signOut();
+        if(this.$store.state.currentUser){
+        this.$store.commit("setCurrentUser", '');
+        }
+        this.$router.replace({name:"About"})
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    addAdmin(){
+        // admin check
+          const addAdminRole= func.httpsCallable('addAdminRole');
+          addAdminRole({
+            email: this.$store.state.currentUser.email
+          }).then(result => console.log(result))
+        
+    }
   },
 
 }

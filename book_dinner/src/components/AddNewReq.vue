@@ -43,8 +43,8 @@ export default {
               comment:this.comment,
               start:this.start,
               end:this.start,
-              userName:this.$store.state.currentUser.email,
-              color: 'green'
+              userName:this.$store.state.userName,
+              color: this.$store.state.userColor,
             })
           }else{
               this.error = 'Please fill the menu and the date'

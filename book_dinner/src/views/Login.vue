@@ -31,11 +31,12 @@
             </v-row>
             </v-container>
             <v-btn class="mr-4 mb-2 ml-4"
-            @click="login">Login
+            @click="login" color='primary'>Login
             </v-btn>
             <br/>
+            <p v-if="error" class="red--text">{{error}}</p>
             <span class="ml-2 text-xl-body-2">Need an account? Click <router-link to="/register" @click="registerClicked"> here </router-link> to make an account
-            <p v-if="error">{{this.error}}</p></span> 
+            </span> 
         </v-form>
     </v-main>
 </template>
@@ -68,6 +69,7 @@ export default {
           this.$store.commit("setCurrentUser", currentUser);
           this.$router.replace({ name: "Calendar" });
       } catch (err) {
+        this.error = "Invalid Username or Password"
         console.log(err);
       }
     },

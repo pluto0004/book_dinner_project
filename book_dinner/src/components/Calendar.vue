@@ -21,7 +21,7 @@
           <v-toolbar-title v-if="$refs.calendar" class="hidden-sm-and-down">
             {{ $refs.calendar.title }}
           </v-toolbar-title>
-          <v-spacer></v-spacer>
+          <!-- <v-spacer></v-spacer>
           <v-menu bottom right v-if="$vuetify.breakpoint.lgOnly">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -45,7 +45,7 @@
                 <v-list-item-title>4 days</v-list-item-title>
               </v-list-item>
             </v-list>
-          </v-menu>
+          </v-menu> -->
           
         </v-toolbar>
       </v-sheet>
@@ -66,8 +66,6 @@
           :event-color="getEventColor"
           :type="type"
           @click:event="showEvent"
-          @click:more="viewDay"
-          @click:date="viewDay"
         ></v-calendar>
 
 
@@ -192,6 +190,7 @@ import AddNewReq from './AddNewReq'
     }),
     async mounted () {
         this.getEvents()
+
     },
 
     methods: {

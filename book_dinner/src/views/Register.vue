@@ -43,9 +43,9 @@
           cols="6"
           md="4"
         >
-           <v-text-field
-            label="Pick your color"
-          ></v-text-field>
+           <v-btn
+            color='secondary'
+p          >Pick your color</v-btn>
           <v-color-picker
             v-model="color"
             required
@@ -60,8 +60,8 @@
           md="4"
         >
          <v-radio-group
-            v-model="cooker"
-            mandatory            
+            mandatory
+            v-model="cooker"            
             >
             <v-radio
                 label="I register as a cooker"
@@ -78,9 +78,9 @@
       </v-row>
     </v-container>
     <v-btn class="mr-4 mb-2"
-      @click="register">Submit
+      @click="register" color="primary">Submit
     </v-btn>
-    <p v-if="error">{{this.error}}</p>
+    <p v-if="error" class="red--text">{{error}}</p>
   </v-form>
 </template>
 
@@ -100,7 +100,10 @@ export default {
             this.error = 'Please fill the form'
             return
         }
-        this.error = ''
+
+
+
+        // save in the firestore
         await firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then( cred =>
         {
            cred.user.updateProfile({
@@ -108,13 +111,11 @@ export default {
           })
           return  db.collection('users').doc(cred.user.uid).set({
             name: this.name,
-            cooker: this.cooker,
+            cooker: this.cooker === 'true'? true:false,
             color: this.color,
         })
         })
-
-        if(this.cooker === "true") this.cooker = true;
-        if(this.cooker === "false") this.cooker = false;
+        
         this.$store.commit("setUserName", this.name);
         Firebase.onAuth()
 
@@ -128,16 +129,17 @@ export default {
         this.name = ''
         this.email = ''
         this.password = null
-        this.cooker = false
+        this.cooker = 1
       },
   },
   data() {
     return {
+      isDisabled: true,
       valid:false,
       email: "",
       password: "",
       name:'',
-      cooker: false,
+      cooker: true,
       error: "",
       color:'',
       nameRules: [
@@ -150,8 +152,5 @@ export default {
       ],
     };
   },
-  computed: {
-
-    },
 };
 </script>
