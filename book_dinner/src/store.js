@@ -14,10 +14,14 @@ export default new Vuex.Store({
 		register: false,
 		eventLists: [],
 		userName: "",
-		userEmail:'',
+		userEmail: "",
 		userColor: "green",
 	},
-	getters: {},
+	getters: {
+		userName: (state) => {
+			return state.userName;
+		},
+	},
 
 	mounted: {
 		async getCurrentUser (state) {
@@ -35,7 +39,7 @@ export default new Vuex.Store({
 		setUserName (state, name) {
 			state.userName = name;
 		},
-		setUserEmail(state, email){
+		setUserEmail (state, email) {
 			state.userName = email;
 		},
 		setColor (state, color) {

@@ -61,8 +61,12 @@ export default {
           const snapshot = await db.collection('users').get()
 
           snapshot.forEach(dbUser => {
-              if(dbUser.id === currentUser.uid){
-                this.$store.commit("logInAsCooker");
+            if(dbUser.id === currentUser.uid){
+            console.log(dbUser.data().cooker)
+                if(dbUser.data().cooker === true){
+                  console.log('she is cooker!')
+                  this.$store.commit("logInAsCooker", true);
+                }
               }
           });
         

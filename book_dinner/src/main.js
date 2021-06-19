@@ -40,14 +40,11 @@ export const createReq = (request) => {
 export default {
 	onAuth () {
 		firebase.auth().onAuthStateChanged((user) => {
-			user = user ? user : {};
-			user.getIdTokenResult().then((idTokenResult) => {
-				if (idTokenResult.claims.admin === true) {
-					store.commit("logInAsCooker", true);
-				}
-			});
-			store.commit("setCurrentUser", user);
-			store.commit("setLogin", user.uid ? true : false);
+			if (user) {
+				store.commit("setCurrentUser", user);
+				store.commit("setLogin", user.uid ? true : false);
+				console.log("firebase.auth is called", store.state.userName);
+			}
 		});
 	},
 };

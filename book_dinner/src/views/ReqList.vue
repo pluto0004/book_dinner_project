@@ -16,7 +16,6 @@
           <AddNewReq @dialog='dialog = $event' @close='getEvents'/>
         </v-dialog>
       </v-row>
-      
       <v-row class="mt-4 ml-4">
         <v-col class="flex-direction: row">
           <v-card
@@ -71,7 +70,7 @@
                   outlined
                   rounded
                   text
-                  v-if="$store.state.isCooker === true"
+                  v-if="cookerStatus === true"
                   @click.prevent="acceptClicked(event)"
 
               >
@@ -105,8 +104,7 @@
 
 import { db } from "@/main";
 import AddNewReq from '../components/AddNewReq'
-
-
+import Firebase from "../main.js"
 
   export default {
       components:{
@@ -117,9 +115,18 @@ import AddNewReq from '../components/AddNewReq'
       selectedEvent: {},
       currentlyEditing:null
     }),
-    created(){
+    async created(){
       this.getEvents()
+      await Firebase.onAuth()
     },
+    computed:{
+      user(){
+        return this.$store.state.isLoggedIn
+      },
+      cookerStatus(){
+        return this.$store.state.isCooker
+      }
+  },
     methods:{
         async getEvents(){
           let snapshot = await db.collection('calRequest').get()
@@ -139,8 +146,8 @@ import AddNewReq from '../components/AddNewReq'
               comment: event.comment,
               start: event.start,
               end: event.start,
-              color: this.$store.state.userColor,
-              userName: this.$store.state.userName
+              color: event.color,
+              userName: event.userName
             })
             await this.deleteEvent(event.id)
         }catch(error){

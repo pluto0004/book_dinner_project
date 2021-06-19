@@ -28,9 +28,9 @@
                           <div class="my-4">
                               <router-link to="/register"><v-btn rounded width="80%" color="primary">Register</v-btn></router-link> 
                           </div>
-                          <div class="my-4" v-if="user === true">
+                          <!-- <div class="my-4" v-if="user === true">
                             <v-btn @click="addAdmin" rounded width="80%" color="primary">Admin</v-btn>
-                          </div>
+                          </div> -->
                       </div>
                     </v-col>
                   </v-row>
@@ -44,14 +44,16 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/functions";
 import {func} from "../main.js"
+import Firebase from "../main.js"
+
 
 export default {
   name: "About",
-
-  
+      async created(){
+      await Firebase.onAuth()
+    },
   computed:{
     user(){
-      console.log(this.$store.state.isLoggedIn, 'computed')
       return this.$store.state.isLoggedIn
     },
   },
@@ -73,7 +75,6 @@ export default {
           addAdminRole({
             email: this.$store.state.currentUser.email
           }).then(result => console.log(result))
-        
     }
   },
 

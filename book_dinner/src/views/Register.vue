@@ -88,7 +88,6 @@ p          >Pick your color</v-btn>
 import firebase from "firebase/app";
 import "firebase/auth";
 import { db } from "@/main";
-import Firebase from "../main.js"
 
 
 
@@ -101,8 +100,6 @@ export default {
             return
         }
 
-
-
         // save in the firestore
         await firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then( cred =>
         {
@@ -111,16 +108,18 @@ export default {
           })
           return  db.collection('users').doc(cred.user.uid).set({
             name: this.name,
-            cooker: this.cooker === 'true'? true:false,
+            cooker: this.cooker === 'true' ? true:false,
             color: this.color,
         })
         })
-        
-        this.$store.commit("setUserName", this.name);
-        Firebase.onAuth()
 
+        console.log(this.cooker)
+        if(this.cooker === 'true'){
+          this.$store.commit("logInAsCooker", true)
+        }
 
-        this.$router.replace({ name: "App" });
+        this.$router.replace({ name: "ReqList" });
+
       } catch (err) {
         console.log(err);
       }
@@ -129,7 +128,7 @@ export default {
         this.name = ''
         this.email = ''
         this.password = null
-        this.cooker = 1
+        this.cooker = false
       },
   },
   data() {
@@ -139,7 +138,7 @@ export default {
       email: "",
       password: "",
       name:'',
-      cooker: true,
+      cooker: false,
       error: "",
       color:'',
       nameRules: [

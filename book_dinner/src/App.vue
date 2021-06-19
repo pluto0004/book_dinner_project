@@ -36,11 +36,9 @@ export default {
        const snapshot = await db.collection('users').get()
           snapshot.forEach(async dbUser => {
               if(dbUser.id === user.uid){
-                // if(await dbUser.data().cooker === true){
-                //   this.$store.commit("logInAsCooker", true);
-                // }else{
-                //   this.$store.commit("logInAsCooker", false);
-                // }
+                if(await dbUser.data().cooker === true){
+                  this.$store.commit("logInAsCooker", true)}
+
                 this.$store.commit("setColor",dbUser.data().color);
               }
           });
