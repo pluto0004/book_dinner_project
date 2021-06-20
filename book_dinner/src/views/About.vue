@@ -1,11 +1,15 @@
 <template>
   <section>
     <h1 class="text-center mt-5 ">UCHI食 <img src="../../public/icon.png" alt="icon" width="25rem" align="center"></h1>
+     <p class="text-center text-align mt-6" v-if="user === true">
+         Welcome <b>{{userStatus.displayName}} !</b> </p>
+
           <v-main>
                 <v-container
                   class="fill-height"
                   fluid
                 >
+                
                   <v-row
                     align="center"
                     justify="center"
@@ -44,17 +48,19 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/functions";
 import {func} from "../main.js"
-import Firebase from "../main.js"
 
 
 export default {
   name: "About",
-      async created(){
-      await Firebase.onAuth()
+      created(){
+          this.$store.dispatch('onAuth')
     },
   computed:{
     user(){
       return this.$store.state.isLoggedIn
+    },
+    userStatus(){
+      return this.$store.state.currentUser
     },
   },
   methods: {
@@ -64,7 +70,7 @@ export default {
         if(this.$store.state.currentUser){
         this.$store.commit("setCurrentUser", '');
         }
-        this.$router.replace({name:"About"})
+        this.$router.replace({name:"Login"})
       } catch (err) {
         console.log(err);
       }
@@ -77,6 +83,5 @@ export default {
           }).then(result => console.log(result))
     }
   },
-
 }
 </script>

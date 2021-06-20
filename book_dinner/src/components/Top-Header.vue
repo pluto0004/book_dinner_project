@@ -98,9 +98,7 @@
             </v-btn>
         </v-btn> 
 
-        <p class="text-center text-align ml-3 mt-4" v-if="user === true">
-         Welcome <b>{{userStatus.displayName}} !</b>
-        </p>
+
     </v-app-bar>
   </div>
 </template>
@@ -108,16 +106,10 @@
 <script>
 import firebase from "firebase/app";
 import "firebase/auth";
-import Firebase from "../main.js"
 
 export default {
    created() {
-    Firebase.onAuth()
-  },
-  data() {
-    return {
-      loggedIn: false,
-    };
+    this.$store.dispatch('onAuth')
   },
   computed:{
     user(){
@@ -126,27 +118,27 @@ export default {
     userStatus(){
       return this.$store.state.currentUser
     },
-    userName(){
-      return this.$store.state.userName
-    }
   },
   methods: {
     async signOut() {
       try {
         await firebase.auth().signOut();
-        if(this.$store.state.isLoggedIn){
+       
         this.$store.commit("setLogin", false);
+        this.$store.commit("logInAsCooker", false);
         this.$store.commit("setCurrentUser", {});
-        this.$store.commit("setUserName", "");
         this.$store.commit("setUserEmail", "");
         this.$store.commit("setColor", "green");
         this.$store.commit("setColor", false);
-        }
+
+        this.$store.dispatch('onAuth')
+        
         this.$router.replace({name:"App"})
       } catch (err) {
         console.log(err);
       }
     },
   },
+
 };
 </script>

@@ -28,6 +28,7 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => console.log("initialized!"));
 
 export const db = firebase.firestore();
 export const func = firebase.functions();
@@ -37,17 +38,17 @@ export const createReq = (request) => {
 	return requestCollection.add(request);
 };
 
-export default {
-	onAuth () {
-		firebase.auth().onAuthStateChanged((user) => {
-			if (user) {
-				store.commit("setCurrentUser", user);
-				store.commit("setLogin", user.uid ? true : false);
-				console.log("firebase.auth is called", store.state.userName);
-			}
-		});
-	},
-};
+// export default {
+// 	onAuth () {
+// 		firebase.auth().onAuthStateChanged((user) => {
+// 			if (user) {
+// 				store.commit("setCurrentUser", user);
+// 				store.commit("setLogin", user.uid ? true : false);
+// 				console.log("firebase.auth is called", store.state.userName);
+// 			}
+// 		});
+// 	},
+// };
 
 let app;
 firebase.auth().onAuthStateChanged(() => {

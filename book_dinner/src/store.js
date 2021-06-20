@@ -13,13 +13,12 @@ export default new Vuex.Store({
 		isCooker: false,
 		register: false,
 		eventLists: [],
-		userName: "",
 		userEmail: "",
 		userColor: "green",
 	},
 	getters: {
-		userName: (state) => {
-			return state.userName;
+		user: (state) => {
+			return state.currentUser;
 		},
 	},
 
@@ -36,9 +35,7 @@ export default new Vuex.Store({
 		setCurrentUser (state, user) {
 			state.currentUser = user;
 		},
-		setUserName (state, name) {
-			state.userName = name;
-		},
+
 		setUserEmail (state, email) {
 			state.userName = email;
 		},
@@ -49,6 +46,7 @@ export default new Vuex.Store({
 			state.register = !state.register;
 		},
 		logInAsCooker (state, cooker) {
+			console.log("cooker called");
 			state.isCooker = cooker;
 		},
 		setEventLists (state, lists) {
@@ -64,5 +62,14 @@ export default new Vuex.Store({
 				this.state.users.push(appData);
 			});
 		},
+		onAuth ({ commit }) {
+			firebase.auth().onAuthStateChanged((user) => {
+				user = user ? user : {};
+				commit("setCurrentUser", user);
+				commit("setLogin", user.uid ? true : false);
+				console.log("onAuth called", user, this.state.isCooker, this.state.currentUser.displayName);
+			});
+		},
+
 	},
 });

@@ -92,6 +92,9 @@ import { db } from "@/main";
 
 
 export default {
+  created(){
+     this.$store.dispatch('onAuth')
+    },
   methods: {
     async register() {
       try {
@@ -118,7 +121,8 @@ export default {
           this.$store.commit("logInAsCooker", true)
         }
 
-        this.$router.replace({ name: "ReqList" });
+        this.$store.dispatch('onAuth')
+        this.$router.push('/')
 
       } catch (err) {
         console.log(err);

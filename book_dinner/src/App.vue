@@ -30,7 +30,6 @@ export default {
       if(user !==  null){
         this.$store.commit("setCurrentUser", user); 
         this.$store.commit("setLogin", true);
-        this.$store.commit("setUserName", user.displayName);
 
       // Get cooker
        const snapshot = await db.collection('users').get()

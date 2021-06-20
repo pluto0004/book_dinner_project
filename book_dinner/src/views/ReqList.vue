@@ -104,7 +104,6 @@
 
 import { db } from "@/main";
 import AddNewReq from '../components/AddNewReq'
-import Firebase from "../main.js"
 
   export default {
       components:{
@@ -115,9 +114,9 @@ import Firebase from "../main.js"
       selectedEvent: {},
       currentlyEditing:null
     }),
-    async created(){
+     created(){
       this.getEvents()
-      await Firebase.onAuth()
+      this.$store.dispatch('onAuth')
     },
     computed:{
       user(){
