@@ -116,7 +116,6 @@ export default {
         })
         })
 
-        console.log(this.cooker)
         if(this.cooker === 'true'){
           this.$store.commit("logInAsCooker", true)
         }

@@ -37,7 +37,6 @@ export default {
       async addEvent(){
         try{
           if(this.name && this.start){
-            console.log(this.$store.state.userName)
             await db.collection('calRequest').add({
               name:this.name,
               comment:this.comment,

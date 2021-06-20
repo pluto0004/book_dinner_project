@@ -62,9 +62,7 @@ export default {
 
           snapshot.forEach(dbUser => {
             if(dbUser.id === currentUser.uid){
-            console.log(dbUser.data().cooker)
                 if(dbUser.data().cooker === true){
-                  console.log('she is cooker!')
                   this.$store.commit("logInAsCooker", true);
                 }
               }

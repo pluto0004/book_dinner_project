@@ -18,7 +18,6 @@ export default {
   },
   computed:{
     user(){
-      console.log(this.$store.state.isLoggedIn, 'computed')
       return this.$store.state.isLoggedIn
     },
   },

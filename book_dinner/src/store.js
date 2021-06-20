@@ -46,7 +46,6 @@ export default new Vuex.Store({
 			state.register = !state.register;
 		},
 		logInAsCooker (state, cooker) {
-			console.log("cooker called");
 			state.isCooker = cooker;
 		},
 		setEventLists (state, lists) {
@@ -67,7 +66,6 @@ export default new Vuex.Store({
 				user = user ? user : {};
 				commit("setCurrentUser", user);
 				commit("setLogin", user.uid ? true : false);
-				console.log("onAuth called", user, this.state.isCooker, this.state.currentUser.displayName);
 			});
 		},
 
