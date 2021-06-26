@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-app-bar>
-      <!-- Home -->
       <v-btn icon>
           <router-link to="/about">
             <v-btn

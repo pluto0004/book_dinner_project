@@ -38,18 +38,6 @@ export const createReq = (request) => {
 	return requestCollection.add(request);
 };
 
-// export default {
-// 	onAuth () {
-// 		firebase.auth().onAuthStateChanged((user) => {
-// 			if (user) {
-// 				store.commit("setCurrentUser", user);
-// 				store.commit("setLogin", user.uid ? true : false);
-// 				console.log("firebase.auth is called", store.state.userName);
-// 			}
-// 		});
-// 	},
-// };
-
 let app;
 firebase.auth().onAuthStateChanged(() => {
 	if (!app) {

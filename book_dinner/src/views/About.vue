@@ -32,9 +32,6 @@
                           <div class="my-4">
                               <router-link to="/register"><v-btn rounded width="80%" color="primary">Register</v-btn></router-link> 
                           </div>
-                          <!-- <div class="my-4" v-if="user === true">
-                            <v-btn @click="addAdmin" rounded width="80%" color="primary">Admin</v-btn>
-                          </div> -->
                       </div>
                     </v-col>
                   </v-row>
@@ -47,7 +44,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/functions";
-import {func} from "../main.js"
 
 
 export default {
@@ -74,13 +70,6 @@ export default {
       } catch (err) {
         console.log(err);
       }
-    },
-    addAdmin(){
-        // admin check
-          const addAdminRole= func.httpsCallable('addAdminRole');
-          addAdminRole({
-            email: this.$store.state.currentUser.email
-          }).then(result => console.log(result))
     }
   },
 }
