@@ -25,4 +25,5 @@ Basic:
  - Accept a request
 
 ## Future Features
-As this app matures I would like to add functionality for selecting recipes from external APIs.
+ - Group Authentication
+ - Importing recipes from external APIs

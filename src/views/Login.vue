@@ -1,44 +1,44 @@
 <template>
-    <v-main>
-        <v-form @submit.prevent="login">
-            <v-container class="ml-2" >
-            <v-row class="flex-column justify-start">
-                <v-col
-                cols="6"
-                >
-                <v-text-field
-                    v-model="email"
-                    :rules="emailRules"
-                    label="E-mail"
-                    class="mt-5 mb-0"
-                    required
-                ></v-text-field>
-                </v-col>
+<v-app id="inspire">
+      <v-content>
+         <v-container fluid fill-height>
+            <v-layout align-start justify-center>
+               <v-flex xs8 sm8 md5 lg3>
+                     <v-card-text>
+                        <v-form>
+                           <v-text-field
+                              name="email"
+                              label="email"
+                              type="text"
+                              v-model="email"
+                              :rules="emailRules"
+                              required
+                           ></v-text-field>
+                           <v-text-field
+                              id="password"
+                              name="password"
+                              label="Password"
+                              type="password"
+                              v-model="password"
+                              required
+                           ></v-text-field>
+                        </v-form>
+                     </v-card-text>
+                     <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="primary" @click="login">Login</v-btn>
+                     </v-card-actions>
 
-                <v-col
-                cols="6"
+                     <p v-if="error" class="red--text">{{error}}</p>
+                     <span class="ml-2 text-xl-body-4">Need an account? Click <router-link to="/register" @click="registerClicked"> here </router-link> to make an account
+                     </span> 
 
-                >
-                <v-text-field
-                    v-model="password"
-                    label="Password"
-                    type="Password"
-                    class="mt-0"
-                    required
-                ></v-text-field>
-                </v-col>
-
-            </v-row>
-            </v-container>
-            <v-btn class="mr-4 mb-2 ml-4"
-            @click="login" color='primary'>Login
-            </v-btn>
-            <br/>
-            <p v-if="error" class="red--text">{{error}}</p>
-            <span class="ml-2 text-xl-body-2">Need an account? Click <router-link to="/register" @click="registerClicked"> here </router-link> to make an account
-            </span> 
-        </v-form>
-    </v-main>
+               </v-flex>
+               
+            </v-layout>
+         </v-container>
+      </v-content>
+   </v-app>
 </template>
 
 <script>

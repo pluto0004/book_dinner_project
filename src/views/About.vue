@@ -29,7 +29,7 @@
                           <div class="my-4" v-if="user === true">
                             <v-btn @click="signOut" rounded width="80%" color="primary">Logout</v-btn>
                           </div>
-                          <div class="my-4">
+                          <div class="my-4" v-if="user === false">
                               <router-link to="/register"><v-btn rounded width="80%" color="primary">Register</v-btn></router-link> 
                           </div>
                       </div>
