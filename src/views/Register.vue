@@ -1,87 +1,62 @@
 <template>
-  <v-form v-model="valid" @submit.prevent="register">
-    <v-container class="ml-2" >
-      <v-row >
-        <v-col
-          cols="6"
-          md="4"
-        >
-          <v-text-field
-            v-model="name"
-            :rules="nameRules"
-            :counter="10"
-            label="User Name"
-            required
-          ></v-text-field>
-        </v-col>
 
-        <v-col
-          cols="6"
-          md="4"
-        >
-          <v-text-field
-            v-model="email"
-            type='email'
-            label="E-mail"
-            required
-          ></v-text-field>
-        </v-col>
+<v-app id="inspire">
+  <v-responsive min-width="300">
+      <v-content>
+         <v-container fluid fill-height>
+            <v-layout align-start justify-center >
+               <v-flex xs8 sm8 md5 lg3>
+                     <v-card-text>
+                        <v-form>
+                           <v-text-field
+                              v-model="name"
+                              :rules="nameRules"
+                              :counter="10"
+                              label="User Name"
+                              required
+                           ></v-text-field>
+                           <v-text-field
+                              v-model="email"
+                              type='email'
+                              label="E-mail"
+                              required  
+                           ></v-text-field>
+                           <v-text-field
+                              v-model="password"
+                              label="Password"
+                              type="Password"
+                              required
+                           ></v-text-field>
+                           <p
+                              class="mt-2 font-weight-bold text-h6"
+                            >Pick your color !</p>
 
-        <v-col
-          cols="6"
-          md="4"
-        >
-          <v-text-field
-            v-model="password"
-            label="Password"
-            type="Password"
-            required
-          ></v-text-field>
-        </v-col>
+                              <v-row justify="space-around">
+                                <v-color-picker
+                                v-model="color"
+                                required
+                                class="ma-2"
+                                hide-canvas
+                                >
+                                </v-color-picker>
 
-        <v-col
-          cols="6"
-          md="4"
-        >
-           <v-btn
-            color='secondary'
-p          >Pick your color</v-btn>
-          <v-color-picker
-            v-model="color"
-            required
-            class="ma-2"
-            hide-inputs
-            hide-canvas
-          ></v-color-picker>
-        </v-col>
-        <br/>
-        <v-col
-          cols="12"
-          md="4"
-        >
-         <v-radio-group
-            mandatory
-            v-model="cooker"            
-            >
-            <v-radio
-                label="I register as a cooker"
-                id="true"
-                value="true"
-            ></v-radio>
-            <v-radio
-                label="I register as an eater"
-                id="false"
-                value="false"
-            ></v-radio>
-            </v-radio-group>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-btn class="mr-4 mb-2"
-      @click="register" color="primary">Submit
-    </v-btn>
-    <p v-if="error" class="red--text">{{error}}</p>
-  </v-form>
+                              </v-row>
+                        </v-form>
+                     </v-card-text>
+                     <v-card-actions>
+                        <v-spacer></v-spacer>
+                            <v-btn class="mr-4 mb-2"
+                              @click="register" color="primary">Submit
+                            </v-btn>
+                     </v-card-actions>
+                     <p v-if="error" class="red--text">{{error}}</p>
+               </v-flex>
+               
+            </v-layout>
+         </v-container>
+      </v-content>
+    </v-responsive>
+   </v-app>
 </template>
 
 <script>

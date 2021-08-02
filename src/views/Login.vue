@@ -1,5 +1,7 @@
 <template>
-<v-app id="inspire">
+  <v-app id="inspire">
+    <v-responsive min-width="300">
+
       <v-content>
          <v-container fluid fill-height>
             <v-layout align-start justify-center>
@@ -38,6 +40,7 @@
             </v-layout>
          </v-container>
       </v-content>
+     </v-responsive>
    </v-app>
 </template>
 
