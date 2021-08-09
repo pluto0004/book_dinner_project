@@ -56,7 +56,6 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap" rel="stylesheet');
 #app {
-/* Google fontsで導入したいfontsからfont-familyを取ってくる */
   font-family: 'Nunito', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
