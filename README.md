@@ -1,6 +1,7 @@
 # UCHI SHOKU
 
 This is an app that I created during the time as students at Code Chrysalis.
+<br>
 https://book-dinner-project.firebaseapp.com/about
 
 <p align="center">Login</p>
@@ -8,7 +9,7 @@ https://book-dinner-project.firebaseapp.com/about
 <br>
 <p align="center">Request</p>
 <p align="center"><img src="public/screenshots/Request.png" width="200px"></p>
-<br />
+<br>
 <p align="center">Calendar</p>
 <p align="center"><img src="public/screenshots/Cal.png" width="200px"></p>
 
