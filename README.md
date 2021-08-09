@@ -1,6 +1,7 @@
 # UCHI SHOKU
 
-This is an app that I created during the time as students at Code Chrysalis. It is an app for booking dinner at home.
+This is an app that I created during the time as students at Code Chrysalis.
+https://book-dinner-project.firebaseapp.com/about
 
 <p align="center">Login</p>
 <p align="center"><img src="public/screenshots/Login.png" width="200px"></p>
